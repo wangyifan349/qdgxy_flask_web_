@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>护肤品攻略</title>
+    <style>
+        .product {
+            margin-bottom: 20px;
+        }
+        .product h2 {
+            cursor: pointer;
+        }
+        .product-details {
+            display: none;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>护肤品攻略</h1>
+    <!-- 导航栏 -->
+    <nav>
+        <ul>
+            <li><a href="/">首页</a></li>
+            <li><a href="/类型/Repair">修复敏感</a></li>
+            <li><a href="/类型/Whitening">美白</a></li>
+        </ul>
+    </nav>
+    <h2>欢迎来到护肤品攻略网站</h2>
+    <p>请从上面的导航栏选择一个分类以查看相关护肤品。</p>
+</body>
+</html>
+```
+
+### 分类页面 HTML 模板 (`templates/category.html`)
+
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ category }} - 护肤品攻略</title>
+    <style>
+        .product {
+            margin-bottom: 20px;
+        }
+        .product h2 {
+            cursor: pointer;
+        }
+        .product-details {
+            display: none;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ category }} 护肤品攻略</h1>
+    <!-- 导航栏 -->
+    <nav>
+        <ul>
+            <li><a href="/">首页</a></li>
+            <li><a href="/类型/Repair">修复敏感</a></li>
+            <li><a href="/类型/Whitening">美白</a></li>
+        </ul>
+    </nav>
+    <!-- 循环显示每个产品 -->
+    {% for product in products %}
+    <div class="product">
+        <h2 onclick="toggleDetails('{{ loop.index0 }}')">{{ product.name }}</h2>
+        <div id="details-{{ loop.index0 }}" class="product-details">
+            <p><strong>类别:</strong> {{ product.category }}</p>
+            <p><strong>描述:</strong> {{ product.description }}</p>
+            <p><strong>使用方法:</strong> {{ product.usage }}</p>
+            <p><strong>成分:</strong> {{ product.ingredients | join(', ') }}</p>
+            <p><strong>敏感性:</strong> {{ product.sensitivity | join(', ') }}</p>
+            <p><strong>标签:</strong> {{ product.tags | join(', ') }}</p>
+        </div>
+    </div>
+    {% endfor %}
+
+    <script>
+        // 折叠和展开产品详细信息
+        function toggleDetails(index) {
+            var details = document.getElementById('details-' + index);
+            if (details.style.display === 'none' || details.style.display === '') {
+                details.style.display = 'block';
+            } else {
+                details.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
+```
