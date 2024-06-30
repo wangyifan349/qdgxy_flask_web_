@@ -1,0 +1,27 @@
+from flask import Flask, render_template
+import json
+
+app = Flask(__name__)
+
+# 读取本地 JSON 文件
+def load_products():
+    with open('products.json', 'r', encoding='utf-8') as f:
+        products = json.load(f)
+    return products
+
+@app.route('/')
+def index():
+    # 加载所有产品并渲染到主页
+    products = load_products()
+    return render_template('index.html', products=products)
+
+@app.route('/类型/<product_type>')
+def product_by_type(product_type):
+    # 加载所有产品并筛选出指定类型的产品
+    products = load_products()
+    filtered_products = [product for product in products if product['type'].lower() == product_type.lower()]
+    return render_template('category.html', category=product_type, products=filtered_products)
+
+if __name__ == '__main__':
+    # 启动 Flask 应用
+    app.run(debug=True)
