@@ -132,4 +132,9 @@ def update_order_status(order_id):
 # 删除订单
 @app.route('/orders/<int:order_id>', methods=['DELETE'])
 def delete_order(order_id):
-    cursor.execute('DELETE FROM orders WHERE id = ?', (o
+    cursor.execute('DELETE FROM orders WHERE id = ?', (order_id,))
+    conn.commit()
+    return jsonify({'message': '订单删除成功'})
+
+if __name__ == '__main__':
+    app.run(debug=True)
